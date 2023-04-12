@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""Reverse a sequence of git commits in an interactive rebase plan.
+"""
+import os
+import sys
+
+import gettext
+from gettext import gettext as _
+
+gettext.bindtextdomain(
+    'reversed-git-rebase', os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'share', 'locale')
+)
+gettext.textdomain('reversed-git-rebase')
+
+
+def alter_comment(line):
+    if _('executed from top to bottom') in line:
+        top = _('top')
+        bottom = _('bottom')
+        placeholder = '#@#@#@#@#'
+        line = line.replace(bottom, placeholder).replace(top, bottom).replace(placeholder, top)
+    return line
+
+
+def make_reversed_file(infile, outfile=None, add_comment=False):
+    if outfile is None:
+        outfile = infile
+
+    if not os.path.isfile(infile):
+        print(_("File {} does not exist.").format(infile), file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        lines = open(infile).readlines()
+    except IOError as e:
+        print(_("Error reading file {}: {}").format(infile, e), file=sys.stderr)
+        sys.exit(2)
+
+    plan = [line for line in lines if line.strip() and not line.startswith('#')]
+    rest = [alter_comment(line) for line in lines if not line.strip() or line.startswith('#')]
+
+    try:
+        with open(outfile, 'w') as out:
+            if add_comment:
+                out.write(_("# Lines are executed from bottom to top!\n"))
+            out.writelines(reversed(plan))
+            out.writelines(rest)
+    except IOError as e:
+        print(_("Error writing to file {}: {}").format(outfile, e), file=sys.stderr)
+        sys.exit(2)
+
+
+try:
+    filename = sys.argv[1]
+except IndexError:
+    print(_("Usage: {} <infile>").format(sys.argv[0]), file=sys.stderr)
+    sys.exit(1)
+
+#TODO get editors from git config
+
+if 'VISUAL' in os.environ and 'DISPLAY' in os.environ:
+    editor = os.environ['VISUAL']
+elif 'EDITOR' in os.environ:
+    editor = os.environ['EDITOR']
+else:
+    editor = 'vi'
+
+make_reversed_file(filename, add_comment=True)
+try:
+    result = os.system('{} {}'.format(editor, filename))
+finally:
+    make_reversed_file(filename)
+
+sys.exit(result)

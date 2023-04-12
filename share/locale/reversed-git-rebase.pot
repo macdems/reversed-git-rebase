@@ -1,0 +1,49 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-04-12 10:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: reversed-sequence-editor:11
+msgid "executed from top to bottom"
+msgstr ""
+
+#: reversed-sequence-editor:12
+msgid "top"
+msgstr ""
+
+#: reversed-sequence-editor:13
+msgid "bottom"
+msgstr ""
+
+#: reversed-sequence-editor:24
+msgid "File {} does not exist."
+msgstr ""
+
+#: reversed-sequence-editor:30
+msgid "Error reading file {}: {}"
+msgstr ""
+
+#: reversed-sequence-editor:39
+msgid ""
+"# Lines are executed from bottom to top!\n"
+msgstr ""
+
+#: reversed-sequence-editor:43
+msgid "Error writing to file {}: {}"
+msgstr ""
+
+#: reversed-sequence-editor:50
+msgid "Usage: {} <infile>"
+msgstr ""
